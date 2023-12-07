@@ -4,15 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>JWPlayer Example</title>
-  <!-- Include JWPlayer library -->
   <script src="https://content.jwplatform.com/libraries/KB5zFt7A.js"></script>
 </head>
 <body>
-  <!-- Create a container for JWPlayer -->
   <div id="player"></div>
 
   <script>
-    // Função para obter o valor do parâmetro da URL
     function getQueryParam(param) {
       const urlParams = new URLSearchParams(window.location.search);
       return urlParams.get(param);
