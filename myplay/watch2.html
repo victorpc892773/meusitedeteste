@@ -1,0 +1,1483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="//ssl.p.jwpcdn.com/player/v/8.26.0/jwplayer.js"></script>
+    <script>
+        jwplayer.key = 'XSuP4qMl+9tK17QNb+4+th2Pm9AWgMO/cYH8CI0HGGr7bdjo';
+    </script>
+        <style>
+		body {
+			margin: 0;
+			padding: 0;
+			overflow: hidden;
+		}
+		
+		#player {
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			height: 100%;
+			width: 100%;
+			overflow: hidden;
+		}
+		
+		#player iframe {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+		}
+	</style>
+</head>
+<body>
+    <div id="player"></div>
+    <script>
+        var playerInstance = jwplayer("player");
+
+        // Função para obter parâmetro da URL
+        function getParameterByName(name, url) {
+            if (!url) url = window.location.href;
+            name = name.replace(/[\[\]]/g, "\\$&");
+            var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, " "));
+        }
+
+        // Obter o valor do parâmetro 'id' da URL
+        var id = getParameterByName('id');
+
+        // Configurar player com base no tipo de link
+        function setupPlayer(url, keyId, key) {
+            var linkType = getLinkType(url);
+
+            if (linkType === 'm3u8') {
+                playerInstance.setup({
+                    playlist: [{
+                        "sources": [
+                            {
+                                "default": true,
+                                "type": "hls",
+                                "file": url,
+                                "label": "auto"
+                            }
+                        ]
+                    }],
+                    width: "100%",
+                    height: "100%",
+                    aspectratio: "16:9",
+                    autostart: false,
+                    mute: false,
+                    preload: "auto",
+                    cast: {},
+                    sharing: {}
+                });
+            } else if (linkType === 'mpd') {
+                playerInstance.setup({
+                    playlist: [{
+                        "sources": [
+                            {
+                                "default": true,
+                                "type": "dash",
+                                "file": url,
+                                "drm": {
+                                    "clearkey": { "keyId": keyId, "key": key },
+                                    "clearkey": { "keyId": keyId, "key": key }
+                                },
+                                "label": "auto"
+                            }
+                        ]
+                    }],
+                    width: "100%",
+                    height: "100%",
+                    aspectratio: "16:9",
+                    autostart: false,
+                    mute: false,
+                    preload: "auto",
+                    cast: {},
+                    sharing: {}
+                });
+            } else {
+                console.error('Tipo de link não suportado');
+            }
+        }
+
+        // Função para obter o tipo de link (m3u8 ou mpd)
+        function getLinkType(url) {
+            return url.endsWith('.m3u8') ? 'm3u8' : (url.endsWith('.mpd') ? 'mpd' : null);
+        }
+
+        // Exemplo de utilização
+        var url, keyId, key, epg;
+
+        if (id === 'ae') {
+            url = 'https://d1r94zrwa3gnlo.cloudfront.net/livestore102/stream/hls/267/267.m3u8';
+        } else if (id === 'agromais') {
+            url = 'https://d1r94zrwa3gnlo.cloudfront.net/livestore102/stream/hls/291/291.m3u8';
+        } else if (id === 'terraviva') {
+            url = 'https://d1r94zrwa3gnlo.cloudfront.net/livestore102/stream/hls/293/293.m3u8';
+        } else if (id === 'sony-movies') {
+            url = 'https://d1r94zrwa3gnlo.cloudfront.net/livestore103/stream/hls/1475/1475.m3u8';
+        } else if (id === 'nick') {
+            url = 'https://d1r94zrwa3gnlo.cloudfront.net/livestore102/stream/hls/284/284.m3u8';
+        } else if (id === 'nickrj') {
+            url = 'https://d1r94zrwa3gnlo.cloudfront.net/livestore102/stream/hls/285/285.m3u8';
+        } else if (id === 'paramount') {
+            url = 'https://d1r94zrwa3gnlo.cloudfront.net/livestore103/stream/hls/289/289.m3u8';
+        } else if (id === 'sony') {
+            url = 'https://d1r94zrwa3gnlo.cloudfront.net/livestore103/stream/hls/279/279.m3u8';
+        } else if (id === 'mtv-live') {
+            url = 'https://d1r94zrwa3gnlo.cloudfront.net/livestore102/stream/hls/286/286.m3u8';
+        } else if (id === 'mtv') {
+            url = 'https://d1r94zrwa3gnlo.cloudfront.net/livestore102/stream/hls/287/287.m3u8';
+        } else if (id === 'lifetime') {
+            url = 'https://d1r94zrwa3gnlo.cloudfront.net/livestore103/stream/hls/280/280.m3u8';
+        } else if (id === 'h1') {
+            url = 'https://d1r94zrwa3gnlo.cloudfront.net/livestore103/stream/hls/281/281.m3u8';
+        } else if (id === 'h2') {
+            url = 'https://d1r94zrwa3gnlo.cloudfront.net/livestore102/stream/hls/282/282.m3u8';
+        } else if (id === 'bandnews') {
+            url = 'https://d1r94zrwa3gnlo.cloudfront.net/livestore103/stream/hls/276/276.m3u8';
+        } else if (id === 'bandsports') {
+            url = 'https://d1r94zrwa3gnlo.cloudfront.net/livestore103/stream/hls/290/290.m3u8';
+        } else if (id === 'comedy-central') {
+            url = 'https://d1r94zrwa3gnlo.cloudfront.net/livestore103/stream/hls/288/288.m3u8';
+        } else if (id === 'arte1') {
+            url = 'https://d1r94zrwa3gnlo.cloudfront.net/livestore102/stream/hls/292/292.m3u8';
+        } else if (id === 'axn') {
+            url = 'https://d1r94zrwa3gnlo.cloudfront.net/livestore103/stream/hls/278/278.m3u8';
+        } else if (id == "amc"){
+            url = 'https://d1wwtskvr1r98k.cloudfront.net/out/v1/1153351a3ffe480dbb3d11774ce5d3d4/index.mpd';
+            keyId = "6d6efce2c647485386a36f0d6a2e427a";
+            key = "92addd0b8bb03dc509b7a118b8f8ab1a";
+        } else if (id == "axn-2"){
+            url = 'https://0003-vos.dtvott.com/DASH/manifest.mpd';
+            keyId = "5fcfd3117f6c39cfb75f507ea45cf150";
+            key = "564ba92660a59472dbe353dec6e2df1f";
+        } else if (id == "band"){
+            url = 'https://0006-bbc.dtvott.com/dash_live_0006/manifest.mpd';
+            keyId = "0dbc422a1181541aaedcb15b97870ad9";
+            key = "92425dc7dc8a9f090d8fe9f33ed68d45";
+        } else if (id == "band-2"){
+            url = 'https://d1wwtskvr1r98k.cloudfront.net/out/v1/a3ed2686e7f0471e9c2989693f7acfbe/index.mpd';
+            keyId = "5760331b7a344b1a8a1610a282824107";
+            key = "34720226ba10de5c7436fdd1d983863b";
+        } else if (id == "bandnews-2"){
+            url = 'https://d31ii3fk8fd7mh.cloudfront.net/out/v1/dba27aa6a500409998dc3ced16c3700d/index.mpd';
+            keyId = "f38a76e76e1d44c19aac64eb3a139cc0";
+            key = "1b8d89c7581ea575e5fab73f10915790";
+        } else if (id == "bis"){
+            url = 'https://0055-jbc.dtvott.com/dash_live_0055/manifest.mpd';
+            keyId = "d00f407f39395bc1b3718683c31e5837";
+            key = "80188a26136ec57dd6732d380aeb14ce";
+        } else if (id == "bis-2"){
+            url = 'https://d31ii3fk8fd7mh.cloudfront.net/out/v1/0caaa29cfc5b4c7ca0e0d1d3ff5e08f5/index.mpd';
+            keyId = "053a9f493d9c437ba633d8e5e84e47af";
+            key = "87417aacfaa37048d55d10e6eb52029f";
+        } else if (id == "terraviva-2"){
+            url = 'https://d31ii3fk8fd7mh.cloudfront.net/out/v1/1d92cab2477d4c4faef2e6c229be0acc/index.mpd';
+            keyId = "e36ee6cbe1964205be08d67b420b3529";
+            key = "bc74fa34c4e666502601968e0bdf508c";
+        } else if (id == "bloomberg"){
+            url = 'https://d1wwtskvr1r98k.cloudfront.net/out/v1/fe14672484464e72913ff87d9feae3a3/index.mpd';
+            keyId = "5ecee821666a49929bba365e3d0d0915";
+            key = "f87b40237cfed2a8a09999b025a747b5";
+        } else if (id == "bandsports-2"){
+            url = 'https://0055-jbc.dtvott.com/dash_live_0054/manifest.mpd';
+            keyId = "bd1af42db82f5a17a0d75246f25f5201";
+            key = "a9edd4e2c410923e9cbcb261102e5008";
+        } else if (id == "bandsports-3"){
+            url = 'https://d1wwtskvr1r98k.cloudfront.net/out/v1/4c62c36544ce44a487a47bdc909c1a1c/index.mpd';
+            keyId = "3b4ae4ce4c44435eaf578ed113321414";
+            key = "fde53111a1ae87cf76941570ccd14450";
+        } else if (id == "tvclimatempo"){
+            url = 'https://d31ii3fk8fd7mh.cloudfront.net/out/v1/9cb2830b9ebb4375ae576dfb9cbff267/index.mpd';
+            keyId = "a86f957125e5417daf6a996b6650c7bd";
+            key = "e90387f37485f146c8985d99383b69b1";
+        } else if (id == "filmseart"){
+            url = 'https://d1wwtskvr1r98k.cloudfront.net/out/v1/f6930bcea77e4cb3a464bed6963dab28/index.mpd';
+            keyId = "a155f60f9d6a4387b39c4e4909836137";
+            key = "9af77a8ac516570ee51ef2ea00e8d3dd";
+        } else if (id == "aparecida"){
+            url = 'https://d31ii3fk8fd7mh.cloudfront.net/out/v1/0a61c8af08fa4cef9a14ab5bd8cab8a5/index.mpd';
+            keyId = "c108bc7f59524857ab6535d52c2191a3";
+            key = "c9f5342d00c3dc492a5905bb4209dcbd";
+        } else if (id == "agromais-2"){
+            url = 'https://d31ii3fk8fd7mh.cloudfront.net/out/v1/5a3bc3c6c5204ff0bd022c4fdb351974/index.mpd';
+            keyId = "6f7426346fbb4012871f7a06d8bf8b01";
+            key = "d7c4124bc064d1a062040802884f9666";
+        } else if (id == "arte1-2"){
+            url = 'https://d1wwtskvr1r98k.cloudfront.net/out/v1/3bf4b822c6cb4777b3c3ee502fa6782a/index.mpd';
+            keyId = "f9299f2755c84d909247486651e86ea0";
+            key = "3ea3010e7c724591222568b3a69cfb03";
+        } else if (id == "empreender")
+{
+        url = 'https://d31ii3fk8fd7mh.cloudfront.net/out/v1/c8af1e1deee840d5ac16c838d0247817/index.mpd';
+        keyId = "cd76083ee88241f0beca67cdf68b5d46";
+        key = "82d1f513e21b50b050ead7f42d51495a";
+}
+else if (id == "cinecanal")
+{
+        url = 'https://dtvott-bbc.akamaized.net/dash_live_0027/manifest.mpd?da=0&country=BR&accountType=OTT';
+        keyId = "99a1f64f3c6e5176bd18538594355c2f";
+        key = "edec9943b18dfd65f7cf182df2f126ce";
+        getLang = 2;
+        epg = "41";
+}
+else if (id == "cinemax")
+{
+        url = 'https://dtvott-bbc.akamaized.net/dash_live_0026/manifest.mpd?da=0&country=BR&accountType=OTT';
+        keyId = "c83585e34ba952de968732bb873bd6e8";
+        key = "44b3988cd422e4d309670619e8b81adf";
+        getLang = 2;
+        epg = "178";
+}
+else if (id == "cnnbrasil")
+{
+        url = 'https://d1wwtskvr1r98k.cloudfront.net/out/v1/6a9edbefc23e452d8933c7fde4c83cde/index.mpd';
+        keyId = "1051e554ba65438c87bd2465b856ead9";
+        key = "5b6d76a01be50e5be194b329291d7047";
+        getLang = 2;
+        epg = "77";
+}
+else if (id == "comedycentral")
+{
+        url = 'https://d1wwtskvr1r98k.cloudfront.net/out/v1/ca7d9be37d92451287630da91736d343/index.mpd';
+        keyId = "c1d655534d61486cb54b782e895196dd";
+        key = "b8808d5e452fb77bc0b58af3c4e676d7";
+        epg = "21";
+}
+else if (id == "discovery")
+{
+        url = 'https://0015-vos.dtvott.com/DASH/manifest.mpd';
+        keyId = "c968e196dc203666b093aefe20320bee";
+        key = "dc24e3ea117deb906358bd427aef3a8c";
+        epg = "7";
+}
+else if (id == "hh")
+{
+        url = 'https://dtvott-bbc.akamaized.net/dash_live_0005/manifest.mpd?da=0&country=BR&accountType=OTT';
+        keyId = "cd28d768659c5d8092d8b8260c45cf07";
+        key = "87404405312ed011270f3c48bc4187e1";
+        getLang = 2;
+        epg = "8";
+}
+else if (id == "science")
+{
+        url = 'https://0058-jbc.dtvott.com/dash_live_0058/manifest.mpd';
+        keyId = "df01104845985b04b0d140b9efa58dcc";
+        key = "8514bfd804228f203eb7bb1adf02c25d";
+        getLang = 2;
+        epg = "116";
+}
+else if (id == "theater")
+{
+        url = 'https://dtvott-bbc.akamaized.net/dash_live_0074/manifest.mpd?da=0&country=BR&accountType=OTT';
+        keyId = "eb6caa15212159b985d450e2957d0234";
+        key = "b5c010230dc65871bb80b407e001706c";
+        getLang = 2;
+        epg = "117";
+}
+else if (id == "turbo")
+{
+        url = 'https://dtvott-bbc.akamaized.net/dash_live_0030/manifest.mpd?da=0&country=BR&accountType=OTT';
+        keyId = "87e6f27bf5045e29981293c817dd96f4";
+        key = "55063279be5579d6c784e9c3e29bc648";
+        getLang = 2;
+        epg = "18";
+}
+else if (id == "world")
+{
+        url = 'https://dtvott-bbc.akamaized.net/dash_live_0102/manifest.mpd?da=0&country=BR&accountType=OTT';
+        keyId = "5565fe9480845c5f865dfaca3ebbb220";
+        key = "304c0d2587d94b27940ff15600ee9d99";
+        getLang = 2;
+        epg = "118";
+}
+else if (id == "e")
+{
+        url = 'https://0033-vos.dtvott.com/DASH/manifest.mpd';
+        keyId = "780b548a2fae357fa2737c1788855798";
+        key = "06defc716e244bff03b3453edb437f41";
+        epg = "87";
+}
+else if (id == "espn")
+{
+        url = 'https://s3.belisco.art/dash/master.mpd?id=espn-oip';
+        keyId = "b9a58ced5bb246d3a842a096934b89eb";
+        key = "4d3e655df128db771c1bf9ae28c90130";
+        getLang = 2;
+        epg = "29";
+}
+else if (id == "espn2")
+{
+        url = 'https://worker-crimson-lake-5097.meujogador.workers.dev/dash/master.mpd?id=espn2-oip';
+        keyId = "d01732e6fc944868990772cdc95ba8d2";
+        key = "ca3c168c5b90216442e0650caa370e2c";
+        getLang = 2;
+        epg = "28";
+}
+else if (id == "espn3")
+{
+        url = 'https://worker-crimson-lake-5097.meujogador.workers.dev/dash/master.mpd?id=espn3-oip';
+        keyId = "0901eaf0e35a4b769a030ddbc1d73689";
+        key = "cac8ab227b81f44c8fac43f602814eeb";
+        getLang = 2;
+        epg = "39";
+}
+else if (id == "espn4")
+{
+        url = 'https://live-ftc-sa-east-1.media.starott.com/gru1/qb01/starplus/event/2023/12/04/Torino_vs_Atalanta_20231204_1701712830081/ctr-all-sliding.m3u8';
+        keyId = "186531c73b43433bb0a2d59ba84ac59c";
+        key = "f867a40e7d02927ad7ecf0ce0f900626";
+        getLang = 2;
+        epg = "26";
+}
+else if (id == "espn_off")
+{
+        url = 'https://s3.belisco.art/dash/master.mpd?id=espn-oip';
+        keyId = "b9a58ced5bb246d3a842a096934b89eb";
+        key = "4d3e655df128db771c1bf9ae28c90130";
+        getLang = 2;
+        epg = "29";
+}
+else if (id == "espn2_off")
+{
+        url = 'https://worker-crimson-lake-5097.meujogador.workers.dev/dash/master.mpd?id=espn2-oip';
+        keyId = "d01732e6fc944868990772cdc95ba8d2";
+        key = "ca3c168c5b90216442e0650caa370e2c";
+        getLang = 2;
+        epg = "28";
+}
+else if (id == "espn3_off")
+{
+        url = 'https://worker-crimson-lake-5097.meujogador.workers.dev/dash/master.mpd?id=espn3-oip';
+        keyId = "0901eaf0e35a4b769a030ddbc1d73689";
+        key = "cac8ab227b81f44c8fac43f602814eeb";
+        getLang = 2;
+        epg = "39";
+}
+else if (id == "espn4_off")
+{
+        url = 'https://worker-crimson-lake-5097.meujogador.workers.dev/dash/master.mpd?id=espn4-oip';
+        keyId = "76105ef9b6aa423e8e7a58bb6b86fb8d";
+        key = "a10bccb6ce5e4f219bc50b6c76cde8e5";
+        getLang = 2;
+        epg = "26";
+}
+else if (id == "espnOFF")
+{
+        url = 'https://wbl9kh0ogucspwl.clarocdn.com.br/Content/Channel/SPOESBHD/dsc1/manifest.mpd';
+        keyId = "f85f6c90b6a6c83b7f420f2501a4ddf3";
+        key = "1fdcec9f58d25069cb32414b9def2c95";
+        epg = "29";
+}
+else if (id == "espn2OFF")
+{
+        url = 'https://ctr-01277-claro-br.claro-tv-live.qwilted-cds.cqloud.com/Content/Channel/SPOESIHD/dsc3/manifest.mpd';
+        keyId = "673e1c8e279b90fcd716f24a69e788c5";
+        key = "eb0c9144b456b15411eff604504af2ad";
+        getLang = 1;
+        epg = "28";
+}
+else if (id == "espn3OFF")
+{
+        url = 'https://ctr-01277-claro-br.claro-tv-live.qwilted-cds.cqloud.com/Content/Channel/SPOESPHD/dsc2/manifest.mpd';
+        keyId = "789140b2d566da3a288e034858b3f2bb";
+        key = "2faa3fe07854f85713e3c899a1f37ad5";
+        getLang = 1;
+        epg = "39";
+}
+else if (id == "espn4OFF")
+{
+        url = 'https://wbl9kh0ogucspwl.clarocdn.com.br/Content/Channel/SPOFSTHD/dsc2/manifest.mpd';
+        keyId = "6f38958339995828aed2cbb91b70d9c8";
+        key = "bfc6dd8143de4b1a0e37ed56483ed718";
+        getLang = 1;
+        epg = "26";
+}
+else if (id == "espn2_off")
+{
+        url = 'https://0011-vos.dtvott.com/DASH/manifest.mpd';
+        keyId = "a4ae4d7e9e953094ac4ae86d910452e1";
+        key = "87865659c6bab96a2d4912572fb4007b";
+        getLang = 1;
+        epg = "28";
+}
+else if (id == "espn3_off")
+{
+        url = 'https://0052-vos.dtvott.com/DASH/manifest.mpd';
+        keyId = "d4b03be8f02635f389248d920f5f61f0";
+        key = "d64acbef9f7b6df3ec329661ddf7b6c1";
+        getLang = 1;
+        epg = "39";
+}
+else if (id == "espn4_off")
+{
+        url = 'https://0040-vos.dtvott.com/DASH/manifest.mpd';
+        keyId = "7dcb66746b803c7e9cf9b1a0b97fc308";
+        key = "6f1d49a343be947ad732553bf7ff052c";
+        getLang = 1;
+        epg = "26";
+}
+else if (id == "espnextra")
+{
+        url = 'https://0006-bbc.dtvott.com/dash_live_0091/manifest.mpd?da=1&country=BR&accountType=DTH';
+        keyId = "d0652911b7015750aa0571fc60d8d875";
+        key = "c7df0df985acec752fa4ddb434e2c1a2";
+        getLang = 2;
+        epg = "50";
+}
+else if (id == "combate")
+{
+        url = 'https://d31ii3fk8fd7mh.cloudfront.net/out/v1/6d94289862464e45b047011f22ab55b4/index.mpd';
+        keyId = "bbb0544020bb4d22bfa612d37a2223cd";
+        key = "82ac3b670ea5ab7f9e748519c4da0f43";
+        epg = "114";
+}
+else if (id == "foxsports2")
+{
+        url = 'https://0050-vos.dtvott.com/DASH/manifest.mpd';
+        keyId = "ca03fe421d0735b9b7d288e7fae3f2bd";
+        key = "52c55fa2caf41f3ab398cc04b30e9da9";
+        epg = "27";
+}
+else if (id == "futura")
+{
+        url = 'https://d1wwtskvr1r98k.cloudfront.net/out/v1/696b1a46d9864adfbe88d18e9a68bc1b/index.mpd';
+        keyId = "56a9e43ccd644908b30e89cd1ee731cf";
+        key = "64c603490c3edff98f48f23ced61845f";
+        getLang = 2;
+        epg = "95";
+}
+else if (id == "fx")
+{
+        url = 'https://0019-vos.dtvott.com/DASH/manifest.mpd';
+        keyId = "502a9cb6bebc331596b0695e5050032a";
+        key = "42ec1cb990e01d32ad86807d80fd2f09";
+        epg = "42";
+}
+else if (id == "globonews")
+{
+        url = 'https://d31ii3fk8fd7mh.cloudfront.net/out/v1/f24e86e76a034b12881adfdaa3f18755/index.mpd';
+        keyId = "af4a70867c1646d6b32ba16d13a6f3b3";
+        key = "0e722c8da79e5889953da4f8a37effb2";
+        epg = "78";
+}
+else if (id == "gnt")
+{
+        url = 'https://d1wwtskvr1r98k.cloudfront.net/out/v1/6bc835c038b84958b497329e71f4e048/index.mpd';
+        keyId = "4f127e7536c1448296d8524d14ac1b5d";
+        key = "7d6d557974a26e5f0895193193a07fb4";
+        epg = "97";
+}
+else if (id == "hbo")
+{
+        url = 'https://dtvott-bbc.akamaized.net/dash_live_0009/manifest.mpd?da=0&country=BR&accountType=OTT';
+        keyId = "f5f1e9c443ab568980dd16b246a81764";
+        key = "f13e6fefe6ca2b9ae8597ffd7e62eb90";
+        getLang = 2;
+        epg = "260";
+}
+else if (id == "hbo2")
+{
+        url = 'https://0063-vos.dtvott.com/DASH/manifest.mpd';
+        keyId = "f3da760ccf503f6b92a2cae91b324c0f";
+        key = "8cc9d040457f46feb8426f4a34462ef7";
+        epg = "261";
+}
+else if (id == "hbofamily")
+{
+        url = 'https://dtvott-bbc.akamaized.net/dash_live_0042/manifest.mpd?da=0&country=BR&accountType=OTT';
+        keyId = "20054c12719b569ca749d59e2f477254";
+        key = "4df8bf01e06d3b9e594eb3d65c40dfd0";
+        getLang = 2;
+        epg = "263";
+}
+else if (id == "hboplus")
+{
+        url = 'https://dtvott-bbc.akamaized.net/dash_live_0077/manifest.mpd?da=0&country=BR&accountType=OTT';
+        keyId = "91d7d9099b1b5a959d3e0b86defc1645";
+        key = "f64a24b9f6b4e0d7870daaaa7c897e47";
+        getLang = 2;
+        epg = "262";
+}
+else if (id == "hbosignature")
+{
+        url = 'https://dtvott-bbc.akamaized.net/dash_live_0078/manifest.mpd?da=0&country=BR&accountType=OTT';
+        keyId = "e3cbe37d8b2a5f30bcfc6f883982338f";
+        key = "72cff4bc214b94b88c139977fb4fbf4f";
+        getLang = 2;
+        epg = "264";
+}
+else if (id == "hgtv")
+{
+        url = 'https://dtvott-bbc.akamaized.net/dash_live_0049/manifest.mpd?da=0&country=BR&accountType=OTT';
+        keyId = "ddd856a2d08c5202afbc09c7c9c01db6";
+        key = "628385a202723f77dd157f96bd6a270f";
+        getLang = 2;
+        epg = "115";
+}
+else if (id == "history_OFF")
+{
+        url = 'https://d31ii3fk8fd7mh.cloudfront.net/out/v1/17461d71df564596bfcac9249875b651/index.mpd';
+        keyId = "5aaea2bd50314c76b16fb9b147177c8f";
+        key = "7748769e51a83b3b441cdf1e1a56e3b0";
+        getLang = 2;
+        epg = "84";
+}
+else if (id == "history2_OFF")
+{
+        url = 'https://0045-vos.dtvott.com/DASH/manifest.mpd';
+        keyId = "716087a9bf523fa9b083c2853beb0b10";
+        key = "b3983444e251f376a6a1e1a9e09d923c";
+        epg = "85";
+}
+else if (id == "history2_OFF")
+{
+        url = 'https://d1wwtskvr1r98k.cloudfront.net/out/v1/c353f90b9cb44c4caff3fa4e7cfb7a26/index.mpd';
+        keyId = "e2484fe6b7194ebe81444d0681c9b30c";
+        key = "d53df5e9f71b60c8feffb44d4a2b596d";
+        epg = "85";
+}
+else if (id == "id")
+{
+        url = 'https://dtvott-bbc.akamaized.net/dash_live_0017/manifest.mpd?da=0&country=BR&accountType=OTT';
+        keyId = "19cb94db24785430a263f9696fa3eae3";
+        key = "91d2ac7d3782623538901304847bf2b8";
+        getLang = 2;
+        epg = "13";
+}
+else if (id == "jovempan")
+{
+        url = 'https://dtvott-bbc.akamaized.net/dash_live_0127/manifest.mpd?da=0&country=BR&accountType=OTT';
+        keyId = "90184f5ff1b95e97896094c083717d56";
+        key = "029ea121fe178634f5f0a63fa6375bc3";
+        getLang = 2;
+        epg = "187";
+}
+else if (id == "lifetime_OFF")
+{
+        url = 'https://d31ii3fk8fd7mh.cloudfront.net/out/v1/6dfa2f7566ac43d99f8b7d3ea9b41196/index.mpd';
+        keyId = "19c275ca0f9d4c69b05cde9614985177";
+        key = "febd9e81a7c60be39be689aa8e57c68a";
+        getLang = 2;
+        epg = "88";
+}
+else if (id == "megapix")
+{
+        url = 'https://d1wwtskvr1r98k.cloudfront.net/out/v1/c3bdcd2318f64c1c8225415923f6ed1a/index.mpd';
+        keyId = "19f5d256eb174e56818442b979630439";
+        key = "bdb407d7dee6eeffd1b53be000268320";
+        epg = "105";
+}
+else if (id == "modoViagem")
+{
+        url = 'https://0064-jbc.dtvott.com/dash_live_0064/manifest.mpd';
+        keyId = "cb870d8b6d175f4daa8d4dda149ef91a";
+        key = "bd1963dfa9e3b9daf7e66e250c0a7070";
+        epg = "100";
+}
+else if (id == "modoviagem_wc")
+{
+        url = 'https://d31ii3fk8fd7mh.cloudfront.net/out/v1/842f4cc1be444908ae779c8ef2ef5db6/index.mpd';
+        keyId = "52484d3624ed41fb84c76fb48c042455";
+        key = "314a4c8906805b9ada36d5d80bb553d0";
+        epg = "100";
+}
+else if (id == "mtv")
+{
+        url = 'https://d31ii3fk8fd7mh.cloudfront.net/out/v1/17a8929ed24c446c911b73567d5f3924/index.mpd';
+        keyId = "7476973e706f4743b0e101929f291be7";
+        key = "e39f53c95f232156e395c38c42231b7c";
+        epg = "22";
+}
+else if (id == "mtvlive")
+{
+        url = 'https://d31ii3fk8fd7mh.cloudfront.net/out/v1/cdb48e0a36b542f48358d77d1ff5fa02/index.mpd';
+        keyId = "6ab30ccf5cb24c1dbd953f7f72bb9fa9";
+        key = "9638cef11341b2ebc742b1dcd5fa2531";
+        epg = "179";
+}
+else if (id == "multishow")
+{
+        url = 'https://d1wwtskvr1r98k.cloudfront.net/out/v1/493af2b55a8846bfa71be5b207a065ba/index.mpd';
+        keyId = "ec5557f3870f48b8bf9af04f3d847d8b";
+        key = "a5954e148a082f51d46670a78f4b2b9e";
+        epg = "98";
+}
+else if (id == "natgeo")
+{
+        url = 'https://dtvott-bbc.akamaized.net/dash_live_0021/manifest.mpd?da=0&country=BR&accountType=OTT';
+        keyId = "4de4f830d10e5688837d4ce27787539f";
+        key = "73fbf2859a7ca21b06e677d76a2deec3";
+        getLang = 2;
+        epg = "45";
+}
+else if (id == "off")
+{
+        url = 'https://d31ii3fk8fd7mh.cloudfront.net/out/v1/1e7daab2522c4e438d39330b780a1ffc/index.mpd';
+        keyId = "2d92eac42e19407e89bc738de5c945e0";
+        key = "293de56ec775547247c2d91344e4b9ce";
+        epg = "96";
+}
+else if (id == "paramount")
+{
+        url = 'https://d31ii3fk8fd7mh.cloudfront.net/out/v1/288f016b1e304277b019a4cb360053c9/index.mpd';
+        keyId = "48ffbf24f007429f8c79a27e3afd8307";
+        key = "99c01698f8e874b082ebeb1cd18748da";
+        epg = "16";
+}
+else if (id == "record")
+{
+        url = 'https://d31ii3fk8fd7mh.cloudfront.net/out/v1/c176fd40993d46d5a5a74972961adf7d/index.mpd';
+        keyId = "6877a561bc0140c38d2c747aab4cf5b8";
+        key = "a151018d9d6dfd7e2ea0ac0de415f98b";
+        getLang = 2;
+        epg = "317";
+}
+else if (id == "record_dgo")
+{
+        url = 'https://poc-sky0051.glbcdn.net/dtv-tv/dash_live_0051/manifest.mpd?da=0&country=BR&accountType=OTT&deviceType=&channelId=CH0100000000123';
+        keyId = "3823e5215eb65536b28738cb01288434";
+        key = "6f3d0663a95d1ec1beff9a5120cff601";
+        getLang = 2;
+        epg = "317";
+}
+else if (id == "recordnews")
+{
+        url = 'https://d1wwtskvr1r98k.cloudfront.net/out/v1/68bcc589fc824a91b3cc659f188ec5be/index.mpd';
+        keyId = "51db01d405d747b49a9339c71273f8e1";
+        key = "2fc6db92710acb75fb7f9e4888cf5292";
+        getLang = 2;
+        epg = "182";
+}
+else if (id == "redetv")
+{
+        url = 'https://dtvott-bbc.akamaized.net/dash_live_0043/manifest.mpd?da=0&country=BR&accountType=OTT';
+        keyId = "3ddf981ea70c5632bd5bf230318c8a76";
+        key = "4b668aeecfed8471784a323d2ce612dc";
+        getLang = 2;
+        epg = "185";
+}
+else if (id == "sbt")
+{
+        url = 'https://d1wwtskvr1r98k.cloudfront.net/out/v1/36e62c4d380e4d4480de1cbdc20404b0/index.mpd';
+        keyId = "1f74fb4e7b244f2d9c0527a29df22edd";
+        key = "caf5b94d9baf63c09c93ba9f7ba1961e";
+        epg = "184";
+}
+else if (id == "sony")
+{
+        url = 'https://d31ii3fk8fd7mh.cloudfront.net/out/v1/9f565dc3cb804328b1fb653abf9d1e11/index.mpd';
+        keyId = "e7a7facd1009421fb2812f3b5659642f";
+        key = "36da05b77a1ec1e25d1e63a48876e748";
+        getLang = 2;
+        epg = "82";
+}
+else if (id == "sony_dgo")
+{
+        url = 'https://dtvott-bbc.akamaized.net/dash_live_0023/manifest.mpd?da=0&country=BR&accountType=OTT';
+        keyId = "300bba76f7375d9bbd709f21117743d4";
+        key = "1c47d93c83fc9f5270b3d979061fe549";
+        getLang = 2;
+        epg = "82";
+}
+else if (id == "sportv")
+{
+        url = 'https://d1wwtskvr1r98k.cloudfront.net/out/v1/cf21a2135bf34023bac760360f637ce2/index.mpd';
+        keyId = "911cee28173145e0b5bcd6c7797b6758";
+        key = "35ae8ceceb44dd5ba2ac156d237515da";
+        epg = "30";
+}
+else if (id == "sportv2")
+{
+        url = 'https://d1wwtskvr1r98k.cloudfront.net/out/v1/208c57f14bb24c4484c0c4caeaab20e3/index.mpd';
+        keyId = "8285dda9e7a946319f06fc1edb1affad";
+        key = "2b3f535da7b6085dcc12877af282ad27";
+        epg = "31";
+}
+else if (id == "sportv3")
+{
+        url = 'https://d31ii3fk8fd7mh.cloudfront.net/out/v1/21ff683173064914834b140be21515bd/index.mpd';
+        keyId = "a6dda28b98d5419eb700d5b849f41b9e";
+        key = "9d84317b6afc883c6f3f5398a6701d65";
+        epg = "32";
+}
+else if (id == "star")
+{
+        url = 'https://dtvott-bbc.akamaized.net/dash_live_0014/manifest.mpd?da=0&country=BR&accountType=OTT';
+        keyId = "ac6fab13d32c5c52bb7794f6bc686c14";
+        key = "a7dc87bb1a4c269db98659f5405b0bc0";
+        getLang = 2;
+        epg = "23";
+}
+else if (id == "studiouniversal")
+{
+        url = 'https://d1wwtskvr1r98k.cloudfront.net/out/v1/a6efb9222ef749b980fd3e2baed256d2/index.mpd';
+        keyId = "3d6ac7d56f96417bb25c9610df98e00b";
+        key = "59dbd71ef60989ec8232872f67387639";
+        epg = "106";
+}
+else if (id == "usa")
+{
+        url = 'https://d31ii3fk8fd7mh.cloudfront.net/out/v1/481cc3c982e043d4906e41958f88caba/index.mpd';
+        keyId = "628fea98345242e38557ed076b1ee14b";
+        key = "90e55600bc6a1626e2c80dcc872cd702";
+        getLang = 2;
+        epg = "103";
+}
+else if (id == "tcaction")
+{
+        url = 'https://d31ii3fk8fd7mh.cloudfront.net/out/v1/28d2c914719641da82d38738f60fbe06/index.mpd';
+        keyId = "5ba9ad594c024958b05898eac294b9a8";
+        key = "101402cfa808e5ebe77f7f5d13ccaf97";
+        getLang = 2;
+        epg = "69";
+}
+else if (id == "tccult")
+{
+        url = 'https://d31ii3fk8fd7mh.cloudfront.net/out/v1/34b11dce95e4490c81e11ad69639a51b/index.mpd';
+        keyId = "b53640ad752340c28efd168140de930f";
+        key = "0d00bb5cfc3b2aae03951dd5344ee96b";
+        epg = "73";
+}
+else if (id == "tcfun")
+{
+        url = 'https://d1wwtskvr1r98k.cloudfront.net/out/v1/a0f64d4429234a2d9dee94a93e94c04e/index.mpd';
+        keyId = "6b6fc7025fbd43b986ed81b1d433cc25";
+        key = "f77b46167d0d8e85838b55b1a8359354";
+        epg = "71";
+}
+else if (id == "tcpipoca")
+{
+        url = 'https://d31ii3fk8fd7mh.cloudfront.net/out/v1/19895be20244409c8aa537a8fa29578e/index.mpd';
+        keyId = "235a2d02d9de4942a1faadc43f0ce606";
+        key = "c8b16a1be366ccaab4c4ab243ce68f96";
+        getLang = 2;
+        epg = "72";
+}
+else if (id == "tcpremium")
+{
+        url = 'https://d1wwtskvr1r98k.cloudfront.net/out/v1/cec975a27bfd4e57932669c382c3a57b/index.mpd';
+        keyId = "72c839e1c94c4897aeb11064dee22540";
+        key = "b3999bb9e4206b1f97ee0d86870cb972";
+        getLang = 2;
+        epg = "68";
+}
+else if (id == "tctouch")
+{
+        url = 'https://d31ii3fk8fd7mh.cloudfront.net/out/v1/f3af466d27654565be4d8db220f97712/index.mpd';
+        keyId = "23b942e388d1496a8059f032c8ab9318";
+        key = "57050bc073c53bc5aa6fe782a446b250";
+        epg = "70";
+}
+else if (id == "tlc")
+{
+        url = 'https://dtvott-bbc.akamaized.net/dash_live_0025/manifest.mpd?da=0&country=BR&accountType=OTT';
+        keyId = "8b9fc39df1bd5696a1c6c46cae883567";
+        key = "e2eea67a75323fb4474f94f4354075b0";
+        getLang = 2;
+}
+else if (id == "tnt")
+{
+        url = 'https://streamweb.live.cds.nowonline.com.br/Content/Channel/SPOTNTHD/dsc3/manifest.mpd';
+        keyId = "b024a5cb168d1209ba6cfcfd8d208b2b";
+        key = "25839edb918c3355df36c7d936256f09";
+        getLang = 1;
+        epg = "9";
+}
+else if (id == "space")
+{
+        url = 'https://ctr-01277-claro-br.claro-tv-live.qwilted-cds.cqloud.com/Content/Channel/SPOSPCHD/dsc2/manifest.mpd';
+        keyId = "65b1eb35f598a5fa1822a9bcb3a5d15f";
+        key = "feaa707a172861d80e8004f5fb20d739";
+        epg = "10";
+}
+else if (id == "tnt_oi")
+{
+        url = 'https://s3.belisco.art/dash/master.mpd?id=tnt-oip';
+        keyId = "aaaaaaaaa";
+        key = "aaaaaaaaaaaaaaaa";
+        getLang = 1;
+        epg = "9";
+}
+else if (id == "tnt_off")
+{
+        url = 'https://0012-vos.dtvott.com/DASH/manifest.mpd';
+        keyId = "f042bd0dcb4d3f59b51a570ad46be1bc";
+        key = "ab51feaa722b49fe95b9e958bccd57b4";
+        getLang = 1;
+}
+else if (id == "space_off")
+{
+        url = 'https://dtvott-bbc.akamaized.net/dash_live_0016/manifest.mpd?da=0&country=BR&accountType=OTT';
+        keyId = "84ccdd14d6335a09bc4541e485a56fb7";
+        key = "980a21b0b42d6a36bc1c9a1bc643a174";
+        getLang = 2;
+        epg = "10";
+}
+else if (id == "tvcultura")
+{
+        url = 'https://d31ii3fk8fd7mh.cloudfront.net/out/v1/1c1d3d73a650468db7f41c86d9720c85/index.mpd';
+        keyId = "14a3917cc320409ea9b142cf515c9c36";
+        key = "0d4abe10cbc425976d3ddb40f2c0f98d";
+        epg = "175";
+}
+else if (id == "canalbrasil")
+{
+        url = 'https://0056-jbc.dtvott.com/dash_live_0056/manifest.mpd';
+        keyId = "ccb2a4348ba157b0a2b4d1b615edec0c";
+        key = "16ea8ff64c2f00c26c4d83c87a2ae250";
+        epg = "104";
+}
+else if (id == "canalbrasil-2_ESTÁOFF")
+{
+        url = 'https://d1wwtskvr1r98k.cloudfront.net/out/v1/b0fa8730dca24beaa2a4ed2f03d3dfaa/index.mpd';
+        keyId = "c8ea71b174a94886b1d5a878d6a7c651";
+        key = "691e6514c8283007cd1233ae0eb10ebc";
+        epg = "104";
+}
+else if (id == "tvbrasil")
+{
+        url = 'https://d31ii3fk8fd7mh.cloudfront.net/out/v1/f4301d25615346ac90f1896ec3865f9f/index.mpd';
+        keyId = "e1ce5f2d300241dcbacc9ae7106cfb07";
+        key = "6c944c79d2566fd7d7516ab829f9d664";
+        epg = "61";
+}
+else if (id == "universaltv")
+{
+        url = 'https://d31ii3fk8fd7mh.cloudfront.net/out/v1/b13ddd82fb1b4f24b0c20837f945861e/index.mpd';
+        keyId = "c59ae9353a9b42639bc700f66d6b55ca";
+        key = "802be5b08637824f73b37a5f496858f5";
+        epg = "106";
+}
+else if (id == "viva")
+{
+        url = 'https://d1wwtskvr1r98k.cloudfront.net/out/v1/af447a4f92294e659dec46a79e073fc3/index.mpd';
+        keyId = "4dfcbebed0f844939c6360518f973858";
+        key = "06425edce30119e7bec5c16ab09c96f7";
+        epg = "99";
+}
+else if (id == "warnertv")
+{
+        url = 'https://0001-vos.dtvott.com/DASH/manifest.mpd';
+        keyId = "79b12b153e93345cab54089758741e59";
+        key = "0cd46a7e0a26e32009206716515f1951";
+        keyId = "0d2cd7e6564e3f7a8813405e9a38035a";
+        key = "abb65804e658ab88b6e00df8ffa6392a";
+        epg = "83";
+}
+else if (id == "warnertv_ESTÁ OFF")
+{
+        url = 'https://d1wwtskvr1r98k.cloudfront.net/out/v1/755038aff3c04442acf8535bc0dae328/index.mpd';
+        keyId = "81ca3c4e9d7e4c3fba104be4318daa52";
+        key = "66dc530ffc0c050b15f990956f416b3b";
+        getLang = 2;
+        epg = "83";
+}
+else if (id == "adultswim")
+{
+        url = 'https://0072-jbc.dtvott.com/dash_live_0072/manifest.mpd';
+        keyId = "0ed326c0eb67574eb47c6bbc819721ad";
+        key = "f35e7d0280b2541ef9c5f5c89c7b9680";
+}
+else if (id == "premiereclubes")
+{
+        url = 'https://d31ii3fk8fd7mh.cloudfront.net/out/v1/bebecfdb88004eca85a0791218dac6f0/index.mpd';
+        keyId = "80fc8cf110e348d282bc3434a8dd80e6";
+        key = "e037690a20bddbb7cbbbd56e608c09de";
+}
+else if (id == "premiere2")
+{
+        url = 'https://d1wwtskvr1r98k.cloudfront.net/out/v1/24cf6662baf34c609bf90293d12addad/index.mpd';
+        keyId = "cab39bafa2ac4448b4366b35e83acdc9";
+        key = "c9db9d80f6d38ec4c8458ea1355fd022";
+}
+else if (id == "premiere3")
+{
+        url = 'https://d31ii3fk8fd7mh.cloudfront.net/out/v1/685d04cd462542208d38826e04cfbb2d/index.mpd';
+        keyId = "0a780432b7f34082a22a3f17ca235ba5";
+        key = "a7644784be8e8bffd407a9d52c85ea6f";
+}
+else if (id == "premiere4")
+{
+        url = 'https://d1wwtskvr1r98k.cloudfront.net/out/v1/176c7f24d413465b981f3c4e8dc334be/index.mpd';
+        keyId = "5941db8c14484c5cb23e0de2914c6019";
+        key = "441fcec56db750ba07a8edfe56291114";
+}
+else if (id == "premiere5")
+{
+        url = 'https://d1wwtskvr1r98k.cloudfront.net/out/v1/d18488344dcc4f72b21f0adf25985c20/index.mpd';
+        keyId = "ef63bbca3cab40a5b368982ec4e0ddb9";
+        key = "e1a36ab24f2a41d6778e25be1e7ac0cf";
+}
+else if (id == "premiere6")
+{
+        url = 'https://d1wwtskvr1r98k.cloudfront.net/out/v1/e396d9e056f84c0a9162c91367e326bc/index.mpd';
+        keyId = "c1cee477e5bf4351bd52f170118fd742";
+        key = "1e95c1b8d71289cacaddd0367998845d";
+        epg = "112";
+}
+else if (id == "premiere7")
+{
+        url = 'https://d31ii3fk8fd7mh.cloudfront.net/out/v1/7175972fa5b44fa0b4c0095fd8c7e77d/index.mpd';
+        keyId = "e21949fb855e4f33b9f54a5f8aa05ce4";
+        key = "896d7d33e771ba753c9a7dc0ca2f869e";
+        epg = "113";
+}
+else if (id == "premiere8")
+{
+        url = 'https://d31ii3fk8fd7mh.cloudfront.net/out/v1/36fa8d0221b84f49be70963906851a06/index.mpd';
+        keyId = "4dffcf65d3354d168e671ab9876e5b18";
+        key = "ffd4c5e821ef7b51b43e4487014f0a8c";
+        epg = "113";
+}
+else if (id == "nossofutebol_cl")
+{
+        url = 'https://ctr-01277-claro-br.claro-tv-live.qwilted-cds.cqloud.com/Content/Channel/SPONFUTHD/dsc1/manifest.mpd';
+        keyId = "bd54fbd1b90ccfeb6aa716d18b07ef2e";
+        key = "11a5438363ae88363ec0c87f2c140564";
+        epg = "315";
+}
+else if (id == "nossofutebol")
+{
+        url = 'https://0006-bbc.dtvott.com/dash_live_0133/manifest.mpd?da=1&country=BR&accountType=DTH';
+        keyId = "a85824c8493b52eba3e45cb2ca9ccef8";
+        key = "e4f38757ced0cdd7537d9bfb91d0061e";
+        epg = "315";
+}
+else if (id == "nossofutcopa2")
+{
+        url = 'https://dtvott-jbc.akamaized.net/dash_live_0134/manifest.mpd';
+        keyId = "92925bf546635857b54fac60615991e2";
+        key = "ac0647b369f1e8afe0a29d064466f729";
+        epg = "315";
+}
+else if (id == "nossofutebol1")
+{
+        url = 'https://dtvott-bbc.akamaized.net/dash_live_0159/manifest.mpd?da=0&country=BR&accountType=OTT';
+        keyId = "b3b4d4724638592688df0d639c8a83fa";
+        key = "98f7cd519d08a69c227d6ba7e8d51808";
+        epg = "315";
+}
+else if (id == "nossofutebol2")
+{
+        url = 'https://dtvott-bbc.akamaized.net/dash_live_0160/manifest.mpd?da=0&country=BR&accountType=OTT';
+        keyId = "c846005984b55637aee7973936aa34f9";
+        key = "db8183b6498d1f3093ee64fe076f5276";
+        epg = "315";
+}
+else if (id == "nossofutebol3")
+{
+        url = 'https://dtvott-bbc.akamaized.net/dash_live_0161/manifest.mpd?da=0&country=BR&accountType=OTT';
+        keyId = "8fad32ba2f5e5f7cb53bdf380c987505";
+        key = "fd221c787984da8f251a1d1d114a2863";
+        epg = "315";
+}
+else if (id == "dsports")
+{
+        url = 'https://0135-jbc-da-bpk.dtvott.com/dash_live_0135/manifest.mpd?da=0&country=BR&accountType=OTT';
+        keyId = "533de0c3a6fd523bbcdd1d450ef0ed21";
+        key = "22b927dc058479797c93cc9573b8c1cf";
+        epg = "113";
+}
+else if (id == "paramount1")
+{
+        url = 'https://d31ii3fk8fd7mh.cloudfront.net/out/v1/288f016b1e304277b019a4cb360053c9/index.mpd';
+        keyId = "48ffbf24f007429f8c79a27e3afd8307";
+        key = "99c01698f8e874b082ebeb1cd18748da";
+        epg = "89";
+}
+else if (id == "paramount2")
+{
+        url = 'https://d31ii3fk8fd7mh.cloudfront.net/out/v1/25b7ffba28a948f1bbc1ad75dfe3042c/index.mpd';
+        keyId = "d9d7a78e1f7049899066d4b163b21e04";
+        key = "8b1db8a41631555754776b815bc9771b";
+        epg = "90";
+}
+else if (id == "paramount3")
+{
+        url = 'https://d31ii3fk8fd7mh.cloudfront.net/out/v1/e9a767b870f045ccae76e4407859f415/index.mpd';
+        keyId = "fbce643f6be1468cad0b5fb591e6938d";
+        key = "f373e5afce967a1d74d901624551ee93";
+        epg = "91";
+}
+else if (id == "paramount4")
+{
+        url = 'aaaaaaaaaaaaaaaaaaaa';
+        keyId = "aaaaaaaaaaaaaaaaaaaa";
+        key = "aaaaaaaaaaaaaaa";
+        epg = "92";
+}
+else if (id == "primeboxbrasil")
+{
+        url = 'https://qn-01277-rjoam-1-02-2.claro-tv-live.qwilted-cds.cqloud.com/Content/Channel/SPOCBQ7HD/dsc2/manifest.mpd';
+        keyId = "57915e43b610a01d21dd0397451c9a67";
+        key = "3dcea661b9b42ec37638d4167bf82ee5";
+        epg = "57";
+}
+else if (id == "cartoonnetwork")
+{
+        url = 'https://dtvott-bbc.akamaized.net/dash_live_0013/manifest.mpd?da=0&country=BR&accountType=OTT';
+        keyId = "884c84a3ef8d5921a294df585cb7102e";
+        key = "1e02e95c47897a06705a2a2befba6162";
+        getLang = 2;
+        epg = "2";
+}
+else if (id == "ratimbum")
+{
+        url = 'https://d1wwtskvr1r98k.cloudfront.net/out/v1/bf1c00c968b247aba311b95a84904e55/index.mpd';
+        keyId = "34e158da08cc4ff6acb42e07821a7952";
+        key = "9ddc0e38abbb79f2d27b890ffc4b8b7b";
+        getLang = 2;
+        epg = "62";
+}
+else if (id == "cartoonito")
+{
+        url = 'https://dtvott-bbc.akamaized.net/dash_live_0039/manifest.mpd?da=0&country=BR&accountType=OTT';
+        keyId = "a143b53e92905cb98a50816b9592cff3";
+        key = "d7ec0aecfbc918a14cd458b1567bf1a8";
+        getLang = 2;
+        epg = "11";
+}
+else if (id == "discoverykids")
+{
+        url = 'https://dtvott-bbc.akamaized.net/dash_live_0004/manifest.mpd?da=0&country=BR&accountType=OTT';
+        keyId = "6672e54d0e90531883da131929ea47ad";
+        key = "d79a0a3e8985f5199c302485be7923ab";
+        getLang = 2;
+        epg = "1";
+}
+else if (id == "disneychannel")
+{
+        url = 'https://dtvott-bbc.akamaized.net/dash_live_0018/manifest.mpd?da=0&country=BR&accountType=OTT';
+        keyId = "843e14c610605ca285b0f1a90b36a5e6";
+        key = "d7998fc1fd278eecdfb8a09bf4bee04a";
+        getLang = 2;
+        epg = "36";
+}
+else if (id == "gloob")
+{
+        url = 'https://d31ii3fk8fd7mh.cloudfront.net/out/v1/bbba1fe5b29f40f387435ce7eed1c167/index.mpd';
+        keyId = "73b35a5063db4144a28e316a71c49478";
+        key = "5a6d77f5c5493388d7cc1243393ffb9b";
+        epg = "93";
+}
+else if (id == "gloobinho")
+{
+        url = 'https://d31ii3fk8fd7mh.cloudfront.net/out/v1/8835e2435ddc400a982bba0215e40877/index.mpd';
+        keyId = "1d9bbc7f1ea04d0d8802c2aba39f5a35";
+        key = "264e206fd59868cd5313936cf8d5e041";
+        epg = "94";
+}
+else if (id == "nick")
+{
+        url = 'https://d1wwtskvr1r98k.cloudfront.net/out/v1/6fed9b86025f4a989ec029c16256a8ea/index.mpd';
+        keyId = "f713e0988f4b4897bc94277372e489b9";
+        key = "bb55844f63cfc74ab2f1259078bc644f";
+        getLang = 2;
+        epg = "3";
+}
+else if (id == "nickjr")
+{
+        url = 'https://d1wwtskvr1r98k.cloudfront.net/out/v1/d0982434e4c94f3a9bbbd0204d046b8c/index.mpd';
+        keyId = "37ce3470f18d41f9955584d73926f972";
+        key = "e15411e50964be6f36cf27defcc6ac9e";
+        getLang = 2;
+        epg = "17";
+}
+else if (id == "globosp_saopaulo")
+{
+        url = 'https://dtvott-bbc.akamaized.net/dash_live_0095/manifest.mpd?da=0&country=BR&accountType=OTT';
+        keyId = "32a2a478899c5b04984f7dd6a10245c5";
+        key = "cd2c3f7c62d326c07ab0c93da5b56809";
+        getLang = 3;
+        epg = "124"
+        epg2 = "SAO%20PAULO,SAO%20PAULO"
+}
+else if (id == "globosp_eptvcampinas")
+{
+        url = 'https://dtvott-jbc.akamaized.net/dash_live_0089/manifest.mpd?da=0&country=BR&accountType=OTT';
+        keyId = "af932b2408f6572eb049a5df265e3db7";
+        key = "dc0736eefaa60d24fcf2a06d36fca754";
+        getLang = 3;
+        epg = "124"
+        epg2 = "SAO%20PAULO,SAO%20PAULO"
+}
+else if (id == "globosp_eptvcentral")
+{
+        url = 'https://0103-vos.dtvott.com/DASH/manifest.mpd';
+        keyId = "d716974633523163a90912f20d40a50b";
+        key = "2e2945824b82c72bef9dc21c9f004784";
+        epg = "124"
+        epg2 = "SAO%20PAULO,SAO%20PAULO"
+}
+else if (id == "globosp_ribeiraopreto")
+{
+        url = 'https://dtvott-bbc.akamaized.net/dash_live_0090/manifest.mpd?da=0&country=BR&accountType=OTT';
+        keyId = "49b986d0d689578a91a1fd34c24716d8";
+        key = "212c189e58aeb3ad396194f5a621be6f";
+        getLang = 3;
+        epg = "124"
+        epg2 = "SAO%20PAULO,SAO%20PAULO"
+}
+else if (id == "globosp_tvdiario")
+{
+        url = 'https://0155-vos.dtvott.com/DASH/manifest.mpd?da=0&country=BR&accountType=OTT';
+        keyId = "adfeb39813d130589cad859e26bb8e3a";
+        key = "39ad508f471d8e82dd5a4c059445637b";
+        epg = "197"
+        epg2 = "MOGI%20DAS%20CRUZES,SAO%20PAULO"
+}
+else if (id == "globosp_tvtembauru")
+{
+        url = 'https://dtvott-bbc.akamaized.net/dash_live_0098/manifest.mpd?da=0&country=BR&accountType=OTT';
+        keyId = "08909ad93ca55ecd952e5876a5a9ff81";
+        key = "e0c0593c01f120098d880f774437fd92";
+        getLang = 3;
+        epg = "124"
+        epg2 = "SAO%20PAULO,SAO%20PAULO"
+}
+else if (id == "globosp_temitapetininga")
+{
+        url = 'https://0122-vos.dtvott.com/DASH/manifest.mpd?da=0&country=BR&accountType=OTT';
+        keyId = "96b48fb1cad5374a8a48a5bc71f9628a";
+        key = "e014f687c14c65c5e931e61ef2cb2f42";
+        epg = "246"
+        epg2 = "ITAPETININGA,SAO%20PAULO"
+}
+else if (id == "globosp_tvtemsjriopreto")
+{
+        url = 'https://dtvott-jbc.akamaized.net/dash_live_0099/manifest.mpd?da=0&country=BR&accountType=OTT';
+        keyId = "b595cb3b456b5c84ac2b2df5cdae744a";
+        key = "ac57655100d51931c5311995575fe3ba";
+        getLang = 3;
+        epg = "124"
+        epg2 = "SAO%20PAULO,SAO%20PAULO"
+}
+else if (id == "globosp_tvtemsorocaba")
+{
+        url = 'https://dtvott-jbc.akamaized.net/dash_live_0100/manifest.mpd?da=0&country=BR&accountType=OTT';
+        keyId = "fb36a62cdccc55d08c34515d1ca374a4";
+        key = "8550dd6106933b81dca52ba77ff32822";
+        getLang = 3;
+        epg = "124"
+        epg2 = "SAO%20PAULO,SAO%20PAULO"
+}
+else if (id == "globosp_tvvanguardasjcampos")
+{
+        url = 'https://0157-vos.dtvott.com/DASH/manifest.mpd?da=0&country=BR&accountType=OTT';
+        keyId = "08063f2855bf3d11b186432b4ef1a9f4";
+        key = "01889769d96ba1ed5e9876badd407265";
+        epg = "254"
+        epg2 = "SAO%20JOSE%20DOS%20CAMPOS,SAO%20PAULO"
+}
+else if (id == "globosp_tvvanguardataubate")
+{
+        url = 'https://0156-vos.dtvott.com/DASH/manifest.mpd?da=0&country=BR&accountType=OTT';
+        keyId = "5b8cfa8f241334ac9378fffc078eea45";
+        key = "f75964bf39d58153986735e79d54a64b";
+        epg = "251"
+        epg2 = "TAUBATE,SAO%20PAULO"
+}
+else if (id == "globorj")
+{
+        url = 'https://0006-bbc.dtvott.com/dash_live_0094/manifest.mpd?da=1&country=BR&accountType=DTH';
+        keyId = "fe1d448746445b0dad008ffc96659be1";
+        key = "18a914b3b4c62c8939589e987bbff57f";
+        getLang = 3;
+        epg = "125"
+        epg2 = "RIO%20DE%20JANEIRO,RIO%20DE%20JANEIRO"
+}
+else if (id == "globorj_intertvaltolitoral")
+{
+        url = 'https://0147-vos.dtvott.com/DASH/manifest.mpd?da=0&country=BR&accountType=OTT';
+        keyId = "b1a4d1bdb88334f087d81110052c97f6";
+        key = "05390a171dcc557ca35a4b77c90d4e04";
+        epg = "248"
+        epg2 = "CABO%20FRIO,RIO%20DE%20JANEIRO"
+}
+else if (id == "globorj_intertvserramar")
+{
+        url = 'https://0148-vos.dtvott.com/DASH/manifest.mpd?da=0&country=BR&accountType=OTT';
+        keyId = "6f172ceca3b33fb9af2b928958deba33";
+        key = "132f52e791110208fa5fa2b653d788ca";
+        epg = "252"
+        epg2 = "NOVA%20FRIBURGO,RIO%20DE%20JANEIRO"
+}
+else if (id == "globorj_tvriosul")
+{
+        url = 'https://0149-vos.dtvott.com/DASH/manifest.mpd?da=0&country=BR&accountType=OTT';
+        keyId = "0a10d5ef8eea3b189767f24ea477dd2c";
+        key = "60b3f2c22ca15274c78636aea24d24cb";
+        epg = "125"
+        epg2 = "RIO%20DE%20JANEIRO,RIO%20DE%20JANEIRO"
+}
+else if (id == "globomg")
+{
+        url = 'https://dtvott-bbc.akamaized.net/dash_live_0076/manifest.mpd?da=0&country=BR&accountType=OTT';
+        keyId = "96727b3d6ea3585ab2de40497d13913a";
+        key = "d5e903e46f13965ff02d9d2cf86bbed4";
+        getLang = 2;
+        epg = "126"
+        epg2 = "BELO%20HORIZONTE,MINAS%20GERAIS"
+}
+else if (id == "globomg_eptvsuldeminas")
+{
+        url = 'https://dtvott-jbc.akamaized.net/dash_live_0075/manifest.mpd?da=0&country=BR&accountType=OTT';
+        keyId = "04c20717a7855094b5b32102430c7806";
+        key = "1eb521b5c48879ca4a22971bce5a2c73";
+        getLang = 3;
+        epg = "126"
+        epg2 = "BELO%20HORIZONTE,MINAS%20GERAIS"
+}
+else if (id == "globomg_intertvdosvales")
+{
+        url = 'https://0143-vos.dtvott.com/DASH/manifest.mpd?da=0&country=BR&accountType=OTT';
+        keyId = "d4f565fe4a94316ab383d51ca7f5c983";
+        key = "3123e4e67f8067245fa97b57594e4c77";
+        epg = "214"
+        epg2 = "GOVERNADOR%20VALADARES,MINAS%20GERAIS"
+}
+else if (id == "globomg_tvintegracaoaraxa")
+{
+        url = 'https://0140-vos.dtvott.com/DASH/manifest.mpd?da=0&country=BR&accountType=OTT';
+        keyId = "eaf34ea847a734679ebb5a6a3e11635c";
+        key = "eab87659a5ce08dae79cc7cea87e37f7";
+        epg = "245"
+        epg2 = "DIVINOPOLIS,MINAS%20GERAIS"
+}
+else if (id == "globomg_tvintegracaojuizdefora")
+{
+        url = 'https://0141-vos.dtvott.com/DASH/manifest.mpd?da=0&country=BR&accountType=OTT';
+        keyId = "08dc725407453ed2b0499d6033f3bf7d";
+        key = "c984d4022f885c837b8531280ff2b43f";
+        epg = "228"
+        epg2 = "JUIZ%20DE%20FORA,MINAS%20GERAIS"
+}
+else if (id == "globomg_tvintegracaouberaba")
+{
+        url = 'https://0142-vos.dtvott.com/DASH/manifest.mpd?da=0&country=BR&accountType=OTT';
+        keyId = "3a5c75b940963f28b76a9a0778334825";
+        key = "8ddb0c0d4fe303cad19fe4fef56b6162";
+        epg = "242"
+        epg2 = "UBERABA,MINAS%20GERAIS"
+}
+else if (id == "globomg_tvintegracaouberlandia")
+{
+        url = 'https://0120-vos.dtvott.com/DASH/manifest.mpd?da=0&country=BR&accountType=OTT';
+        keyId = "db1f45f2c7eb3229a72fccd82b60a6f7";
+        key = "4e2070595da16f87e6e6459a26be34d6";
+        epg = "257"
+        epg2 = "UBERLANDIA,MINAS%20GERAIS"
+}
+else if (id == "globoes_tvgazetavitoria")
+{
+        url = 'https://0119-vos.dtvott.com/DASH/manifest.mpd';
+        keyId = "0443323f4f853b8790d0eb059b24a977";
+        key = "1d33e119588df09dec758d278b7b8c35";
+        epg = "200"
+        epg2 = "VITORIA,ESPIRITO%20SANTO"
+}
+else if (id == "globors_rbstvportoalegre")
+{
+        url = 'https://dtvott-jbc.akamaized.net/dash_live_0081/manifest.mpd?da=0&country=BR&accountType=OTT';
+        keyId = "1a11fb8f7abb5d62b8aa56cb568bc2b2";
+        key = "3a2f3908031b2e4d2bef0b0effc400ef";
+        getLang = 2;
+        epg = "225"
+        epg2 = "PORTO%20ALEGRE,RIO%20GRANDE%20DO%20SUL"
+}
+else if (id == "globors_rbstvcaxiasdosul")
+{
+        url = 'https://0151-vos.dtvott.com/DASH/manifest.mpd?da=0&country=BR&accountType=OTT';
+        keyId = "28a2d116c82c36a4bbde4c9d5b4d8ecc";
+        key = "2eaac26013e0b78df69bb815e4bf9951";
+        epg = "223"
+        epg2 = "CAXIAS%20DO%20SUL,RIO%20GRANDE%20DO%20SUL"
+}
+else if (id == "globors_rbstvsantacruz")
+{
+        url = 'https://0152-vos.dtvott.com/DASH/manifest.mpd?da=0&country=BR&accountType=OTT';
+        keyId = "108701bd584f3a6194b3c4f8f3f08df1";
+        key = "da0aa85abc1e4789e0010700ca8b5b8c";
+        epg = "238"
+        epg2 = "SANTA%20CRUZ%20DO%20SUL,RIO%20GRANDE%20DO%20SUL"
+}
+else if (id == "globosc_nsctvflorianopolis")
+{
+        url = 'https://0107-vos.dtvott.com/DASH/manifest.mpd?da=0&country=BR&accountType=OTT';
+        keyId = "2e23a3fbb85338599e3fe7ff8b2d39d4";
+        key = "1baeda5725794921525cc4a9ffe46c8b";
+        epg = "193"
+        epg2 = "FLORIANOPOLIS,SANTA%20CATARINA"
+}
+else if (id == "globosc_nsctvblumenau")
+{
+        url = 'https://dtvott-jbc.akamaized.net/dash_live_0137/manifest.mpd?da=0&country=BR&accountType=OTT';
+        keyId = "";
+        key = "";
+}
+else if (id == "globosc_nsctvchapeco")
+{
+        url = 'https://0153-vos.dtvott.com/DASH/manifest.mpd?da=0&country=BR&accountType=OTT';
+        keyId = "775e1ec8127330a89f8e4877222c3bd6";
+        key = "a376c2d4d9e7554869d858ff828be011";
+        epg = "270"
+        epg2 = "CHAPECO,SANTA%20CATARINA"
+}
+else if (id == "globosc_nsctvjoinville")
+{
+        url = 'https://0154-vos.dtvott.com/DASH/manifest.mpd?da=0&country=BR&accountType=OTT';
+        keyId = "84462906431b3de3bfc57e75704b5038";
+        key = "abbbf22a4f8fd5bb5aeb145a791864af";
+        epg = "194"
+        epg2 = "JOINVILLE,SANTA%20CATARINA"
+}
+else if (id == "globopr_rpccuritiba")
+{
+        url = 'https://dtvott-bbc.akamaized.net/dash_live_0096/manifest.mpd?da=0&country=BR&accountType=OTT';
+        keyId = "3dcdd2a52c655ae1837042b060f0e3d0";
+        key = "f19f093c313d172de44bf5f11859cb3f";
+        getLang = 2;
+        epg = "217"
+        epg2 = "CURITIBA,PARANA"
+}
+else if (id == "globope_nordeste")
+{
+        url = 'https://0104-vos.dtvott.com/DASH/manifest.mpd?da=0&country=BR&accountType=OTT';
+        keyId = "f9e7907bb71238a082f19410d4e480d1";
+        key = "959aa47fea38f91d101f22d4819325b6";
+        epg = "128"
+        epg2 = "RECIFE,PERNAMBUCO"
+}
+else if (id == "globope_tvasabranca")
+{
+        url = 'https://0145-vos.dtvott.com/DASH/manifest.mpd?da=0&country=BR&accountType=OTT';
+        keyId = "c2da4d5395493bc887e9137c77961562";
+        key = "fca4492c65567803aa3558d8c0a8205a";
+        epg = "191"
+        epg2 = "CARUARU,PERNAMBUCO"
+}
+else if (id == "globoba_tvbahia")
+{
+        url = 'https://dtvott-bbc.akamaized.net/dash_live_0097/manifest.mpd?da=0&country=BR&accountType=OTT';
+        keyId = "405804998cc959c98362b56166f6454e";
+        key = "e6fde5669b102697c8b85b972cf1cbaf";
+        getLang = 2;
+        epg = "195"
+        epg2 = "SALVADOR,BAHIA"
+}
+else if (id == "globoba_tvsantacruz")
+{
+        url = 'https://0138-vos.dtvott.com/DASH/manifest.mpd?da=0&country=BR&accountType=OTT';
+        keyId = "e20cf41510f93e779b5c6e04d1bfbbdb";
+        key = "16a47a060963a5c6aaf557ecf45291a0";
+        epg = "226"
+        epg2 = "ITABUNA,BAHIA"
+}
+else if (id == "globoba_tvsudoeste")
+{
+        url = 'https://0139-vos.dtvott.com/DASH/manifest.mpd?da=0&country=BR&accountType=OTT';
+        keyId = "16bc985c341c38e689397e679dd905f8";
+        key = "362192481eb8e2ffff91a20ac9244c53";
+        epg = "243"
+        epg2 = "VITORIA%20DA%20CONQUISTA,BAHIA"
+}
+else if (id == "globoce_tvverdesmares")
+{
+        url = 'https://0123-vos.dtvott.com/DASH/manifest.mpd?da=0&country=BR&accountType=OTT';
+        keyId = "67f6ac9d4ad63c2896554524454872d9";
+        key = "4e6e45f78ccc9ae9a5638de8085f46dc";
+        epg = "203"
+        epg2 = "FORTALEZA,CEARÁ"
+}
+else if (id == "globoce_tvverdesmarescariri")
+{
+        url = 'https://0124-vos.dtvott.com/DASH/manifest.mpd?da=0&country=BR&accountType=OTT';
+        keyId = "5cac6b12cf8c3738a660b18b9ebe943a";
+        key = "104e68f99255baf4939e233f9160bda4";
+        epg = "203"
+        epg2 = "FORTALEZA,CEARÁ"
+}
+else if (id == "globopi_tvclube")
+{
+        url = 'https://0146-vos.dtvott.com/DASH/manifest.mpd?da=0&country=BR&accountType=OTT';
+        keyId = "1b0e194e07e135e8871cb49670187dcd";
+        key = "696fa95306e4f11630eae99b0200e8ac";
+        epg = "241"
+        epg2 = "TERESINA,PIAUI"
+}
+else if (id == "globoma_tvmirantesaoluis")
+{
+        url = 'https://0121-vos.dtvott.com/DASH/manifest.mpd?da=0&country=BR&accountType=OTT';
+        keyId = "afc03cecdfcc304da06f1f390bc4272a";
+        key = "be8805177bd2d3c5d2c6f7a7de83be2a";
+        epg = "219"
+        epg2 = "SAO%20LUIS,MARANHAO"
+}
+else if (id == "globorn_intertvcabugi")
+{
+        url = 'https://0150-vos.dtvott.com/DASH/manifest.mpd?da=0&country=BR&accountType=OTT';
+        keyId = "a47f8ea2038c34f98dcd6998794aa95b";
+        key = "c9d060a9f1df0b4309728e12acafc1d2";
+        epg = "232"
+        epg2 = "NATAL,RIO%20GRANDE%20DO%20NORTE"
+}
+else if (id == "globopb_tvcabobranco")
+{
+        url = 'https://0144-vos.dtvott.com/DASH/manifest.mpd?da=0&country=BR&accountType=OTT';
+        keyId = "48607625a44f3ae4b745d425cca413d2";
+        key = "26f7aacc4dabb2571fb0f854d8b8d6d5";
+        epg = "196"
+        epg2 = "JOAO%20PESSOA,PARAIBA"
+}
+else if (id == "globodf_brasilia")
+{
+        url = 'https://dtvott-bbc.akamaized.net/dash_live_0093/manifest.mpd?da=0&country=BR&accountType=OTT';
+        keyId = "a596b87acbcc5bdf8fb1a35abed83b86";
+        key = "c08c8364c5f86382e7c83c5f52aab530";
+        getLang = 2;
+        epg = "218"
+        epg2 = "GOIANIA,GOIAS"
+}
+else if (id == "globogo_tvanhangueragoiânia")
+{
+        url = 'https://dtvott-jbc.akamaized.net/dash_live_0087/manifest.mpd?da=0&country=BR&accountType=OTT';
+        keyId = "a4b434ca422454138d01defe65b17257";
+        key = "dfc941c546d1ad0f12fe5d97c96021ad";
+        getLang = 2;
+        epg = "218"
+        epg2 = "GOIANIA,GOIAS"
+}
+else if (id == "globoam_redeamazonicamanaus")
+{
+        url = 'https://dtvott-jbc.akamaized.net/dash_live_0082/manifest.mpd?da=0&country=BR&accountType=OTT';
+        keyId = "5ade751266b25ceb84f408b12dd52e9d";
+        key = "54fc305ba89fc32876bfe96eda9fb91a";
+        getLang = 2;
+        epg = "216"
+        epg2 = "MANAUS,AMAZONAS"
+}  
+else if (id == "globopa_tvliberalbelem")
+{
+        url = 'https://dtvott-jbc.akamaized.net/dash_live_0088/manifest.mpd?da=0&country=BR&accountType=OTT';
+        keyId = "d2ddc6d32fd15621abe015b83a80a6f8";
+        key = "5f6603d5f8e25abfed6be2cdd4e6c70d";
+        getLang = 2;
+        epg = "206"
+        epg2 = "BELEM,PARA"
+}
+
+        // Configurar player com base no tipo de link
+        setupPlayer(url, keyId, key);
+    </script>
+</body>
+</html>
