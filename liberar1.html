@@ -7,7 +7,30 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
 <body style="background-color: black; color: white;">
+  <style>
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.1);
+      }
+      100% {
+        transform: scale(1);
+      }
+    }
 
+    button {
+      font-size: 16px;
+      padding: 10px 20px;
+      background-color: #3498db;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+      animation: pulse 2s infinite;
+    }
+  </style>
   <div class="container mt-5 text-center">
     <button class="btn btn-dark btn-lg" onclick="liberarApp()">ACESSE AQUI PARA<br>LIBERAR O PLAYER!</button>
     <h4 class="mt-3">VAI ABRIR UM ADS<br>BASTA FECHAR NO "X"</h4>
