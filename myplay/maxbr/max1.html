@@ -1,27 +1,17 @@
   <script src="https://cdn.jsdelivr.net/npm/console-ban@5.0.0/dist/console-ban.min.js"></script>
-  <script>
-    // default options
-    ConsoleBan.init()
-    // custom options
-    ConsoleBan.init({
-      redirect: '/404'
-    })
-  </script>
-  <head>
 <script>
-		var hasJS = true;
-		if (typeof window !== 'undefined') {
-			if (window.navigator && window.navigator.userAgent.indexOf('MSIE') !== -1) {
-				hasJS = false;
+    ConsoleBan.init({
+      redirect: "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+    })
+</script>
+    	<noscript>
+		<style>
+			body {
+				display: none;
 			}
-			else {
-				hasJS = true;
-			}
-		}
-		if (!hasJS) {
-			window.location.href = "javascript_disabled.php";
-		}
-	</script>
+		</style>
+		<meta http-equiv="refresh" content="0;url=javascript_disabled.php">
+	</noscript>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
